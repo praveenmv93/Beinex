@@ -13,9 +13,10 @@ class NewUserForm(UserCreationForm):
         model = UserRegistration
         fields = ("username", "first_name", 'email', 'user_image', 'mobile', 'Address')
 
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get("email")
+    def clean_EMAIL(self):
+        # cleaned_data = super().clean()
+        # email = cleaned_data.get("email")
+        email = self.cleaned_data.get("email")
         instances = UserRegistration.objects.filter(email=email)
         if instances.count() > 0:
             raise ValidationError("This Email is already taken")
