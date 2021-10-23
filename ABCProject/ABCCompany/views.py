@@ -128,7 +128,7 @@ def delete_employee(request, id):
 
     instance = UserRegistration.objects.get(id=id)
     if instance.id == user.id:
-
+        print(instance.id)
         if instance:
             instance.delete()
         return redirect("/")
