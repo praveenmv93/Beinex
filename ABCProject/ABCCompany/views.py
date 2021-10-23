@@ -4,8 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 
-import requests
-
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
@@ -13,6 +11,9 @@ from .models import UserRegistration
 from .forms import NewUserForm
 from .forms import NumWordForm
 from .forms import EmpLoginForm
+from num2words import num2words
+import gtts
+from playsound import playsound
 
 
 def home(request):
@@ -134,10 +135,11 @@ def delete_employee(request, id):
     else:
         return redirect("/")
 
-from num2words import num2words
+
 def num_to_word(request):
     form = NumWordForm(request.POST or None)
     print(request.POST)
+    word = 'Please type your number'
     if form.is_valid():
         number = form.cleaned_data.get('number')
         print(number)
@@ -145,5 +147,8 @@ def num_to_word(request):
         print(word)
     else:
         print("else")
-    context = {"form": form,"word":word}
+    tts = gtts.gTTS(word)
+    tts.save("hello.mp3")
+    playsound("hello.mp3")
+    context = {"form": form, "word": word}
     return render(request, 'num_to_word.html', context=context)
