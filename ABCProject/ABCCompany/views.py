@@ -124,10 +124,9 @@ def individual_employee(request, id):
 
 @login_required
 def delete_employee(request, id):
-    user = request.user
 
     instance = UserRegistration.objects.get(id=id)
-    if instance.id == user.id:
+    if instance.id:
         print(instance.id)
         if instance:
             instance.delete()
